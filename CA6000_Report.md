@@ -186,9 +186,13 @@ Before training a neural network we need a **reference point**. A decision tree 
 
 The test-set confusion counts show the effect of the imbalance directly: the tree **barely detects "low" at all** — it predicts exactly 1 of the 10 low wines correctly **(recall 0.1)**. For "high" wines, it correctly predicts 16 of 32 **(recall 0.5)**, misclassifying the other 16 as "medium".
 
+![Figure 7. Decision-tree test-set confusion matrix (3-class, argmax rule).](CHEN BOWEN_PART/figs/cm_dt_3class.png)
+
 ### 5.4 MLP Design
 
 **Architecture:** `11 → 64 → 32 → 3`, with ReLU activations and Dropout (0.3) after each hidden layer. The hidden layers are deliberately small (~1,120 training samples — a larger network would memorise); dropout adds further regularisation. The output layer produces raw **logits** and `CrossEntropyLoss` applies the softmax internally.
+
+![Figure 8. MLP architecture: 11 → 64 → 32 → 3 with ReLU activations and Dropout (0.3).](CHEN BOWEN_PART/figs/mlp_architecture.png)
 
 ### 5.5 Loss & Optimizer
 
@@ -203,8 +207,12 @@ optimizer=torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-4)
 
 Each epoch runs a training pass (mini-batches of 64: zero gradients → forward → loss → backward → update) and a validation pass (`model.eval()`), with early stopping on the validation loss (patience 40). Training stopped at epoch 95 (best validation loss 0.6638 at epoch 55).
 
+![Figure 9. Training and validation loss and accuracy curves; best validation loss 0.6638 at epoch 55.](CHEN BOWEN_PART/figs/training_curves.png)
+
 ### 5.7 Test Evaluation (argmax)
 The test set is used exactly once. Under the default `argmax` rule the MLP reaches **0.8333 test accuracy and 0.6347 macro-F1** (decision tree: 0.8333 / 0.5285) — equal accuracy to the tree and above the majority baseline (0.825), with a far better balance across classes. The MLP detects 4 of the 10 "low" wines (recall 0.4 vs the tree's 0.1) and 21 of the 32 "high" wines (recall 0.6562 vs 0.5); the full per-metric comparison follows in Section 5.8.
+
+![Figure 10. MLP test-set confusion matrix (3-class, argmax rule).](CHEN BOWEN_PART/figs/cm_3class.png)
 ### 5.8 Operating-Point Tuning: Probability Multipliers
 
 `argmax` maximises accuracy, but under class imbalance the metric that matters is **macro-F1** — and the two are not maximised by the same operating point. We adjust the operating point with **probability multipliers**, i.e. by re-weighting the class probabilities before the argmax:
@@ -238,6 +246,8 @@ Hard predictions at a single operating point hide the full precision-recall trad
 | high | 0.4090 | **0.5640** |
 
 The MLP ranks every class at least as well as the tree — most decisively on "high" (AP 0.5640 vs 0.4090). The operating points reported in Section 5.8 show the precision–recall trade-off at the selected probability multipliers.
+
+![Figure 11. Per-class precision-recall curves (one-vs-rest) with average precision; markers show the tuned operating points.](CHEN BOWEN_PART/figs/pr_curves_3class.png)
 ## 6. Accuracy Summary
 
 At the default `argmax` rule, the MLP reaches **83.33% test accuracy and 0.6347 macro-F1**, versus 83.33% accuracy and 0.5285 macro-F1 for the decision tree — equal accuracy, far better balance. At the tuned operating points (Section 5.8) the MLP moves only slightly (0.6347 → 0.6310 with w = [1, 1, 1.5]), while the tree improves to 0.5422 (w = [3, 1, 3]) but still loses both rare classes. The decisive difference is the rare classes: the MLP detects 40% of "low" wines (F1 0.4211 vs the tree's 0.1818, or 0.2857 tuned) and 65.62% of "high" wines at argmax — 75% when tuned (F1 0.5833 / 0.5854 vs the tree's 0.5 / 0.4571). The per-class AP values confirm the same ranking, most decisively on "high": 0.5640 vs 0.4090.
