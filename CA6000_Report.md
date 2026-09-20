@@ -2,8 +2,8 @@
 
 ## Division of Work
 
-- **CHEN BOWEN**: all model parts (model design, training, evaluation and analysis).
 - **LI XIAOTENG**: data preprocessing and visualization (data import, cleaning and EDA).
+- **CHEN BOWEN**: all model parts (model design, training, evaluation and analysis).
 
 ## 1. Introduction & Dataset Source
 
