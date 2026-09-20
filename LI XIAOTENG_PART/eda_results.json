@@ -1,0 +1,290 @@
+{
+  "source": "archive/winequality-red.csv",
+  "sha256": "d6a0d9bd24806944818795f22500c46cb6424cbff517aacda36595d3ed9b2daa",
+  "audit": {
+    "rows": 1599,
+    "columns": 12,
+    "missing_cells": 0,
+    "nonfinite_numeric_cells": 0,
+    "duplicate_full_rows": 240,
+    "duplicate_predictor_rows": 240,
+    "predictor_groups_with_conflicting_quality": 0,
+    "invalid": {
+      "negative_chemical_values": 0,
+      "density_nonpositive": 0,
+      "alcohol_nonpositive": 0,
+      "pH_outside_0_14": 0,
+      "quality_outside_0_10_or_noninteger": 0,
+      "free_sulfur_above_total": 0
+    },
+    "iqr_feature_flags": {
+      "fixed acidity": 49,
+      "volatile acidity": 19,
+      "citric acid": 1,
+      "residual sugar": 155,
+      "chlorides": 112,
+      "free sulfur dioxide": 30,
+      "total sulfur dioxide": 55,
+      "density": 45,
+      "pH": 35,
+      "sulphates": 59,
+      "alcohol": 13
+    },
+    "iqr_any_feature_rows": 405,
+    "iqr_residual_sugar_upper": 3.6500000000000004
+  },
+  "cleaning_demo": {
+    "injected_cells": [
+      "row 0: alcohol = NaN",
+      "row 1: quality = 99",
+      "row 2: chlorides = -0.2",
+      "row 3: residual sugar = 100"
+    ],
+    "before": {
+      "missing_cells": 1,
+      "invalid_quality": 1,
+      "negative_chlorides": 1,
+      "residual_sugar_over_20": 1
+    },
+    "after": {
+      "missing_cells": 0,
+      "invalid_quality": 0,
+      "negative_chlorides": 0,
+      "residual_sugar_over_20": 0
+    },
+    "iqr_cap": 3.6500000000000004,
+    "repaired_values": {
+      "alcohol_row_0": 10.2,
+      "quality_row_1": 5,
+      "chlorides_row_2": 0.079,
+      "residual_sugar_row_3": 3.6500000000000004
+    },
+    "original_dataframe_unchanged": true
+  },
+  "descriptive": {
+    "statistics": {
+      "fixed acidity": {
+        "count": 1599.0,
+        "mean": 8.31963727329581,
+        "median": 7.9,
+        "var": 3.0314163889978167,
+        "min": 4.6,
+        "max": 15.9,
+        "q1": 7.1,
+        "q3": 9.2
+      },
+      "volatile acidity": {
+        "count": 1599.0,
+        "mean": 0.5278205128205128,
+        "median": 0.52,
+        "var": 0.032062377651551614,
+        "min": 0.12,
+        "max": 1.58,
+        "q1": 0.39,
+        "q3": 0.64
+      },
+      "citric acid": {
+        "count": 1599.0,
+        "mean": 0.2709756097560976,
+        "median": 0.26,
+        "var": 0.03794748313440581,
+        "min": 0.0,
+        "max": 1.0,
+        "q1": 0.09,
+        "q3": 0.42
+      },
+      "residual sugar": {
+        "count": 1599.0,
+        "mean": 2.53880550343965,
+        "median": 2.2,
+        "var": 1.9878971329859634,
+        "min": 0.9,
+        "max": 15.5,
+        "q1": 1.9,
+        "q3": 2.6
+      },
+      "chlorides": {
+        "count": 1599.0,
+        "mean": 0.08746654158849279,
+        "median": 0.079,
+        "var": 0.0022151426533009912,
+        "min": 0.012,
+        "max": 0.611,
+        "q1": 0.07,
+        "q3": 0.09
+      },
+      "free sulfur dioxide": {
+        "count": 1599.0,
+        "mean": 15.874921826141339,
+        "median": 14.0,
+        "var": 109.414883833059,
+        "min": 1.0,
+        "max": 72.0,
+        "q1": 7.0,
+        "q3": 21.0
+      },
+      "total sulfur dioxide": {
+        "count": 1599.0,
+        "mean": 46.46779237023139,
+        "median": 38.0,
+        "var": 1082.1023725325824,
+        "min": 6.0,
+        "max": 289.0,
+        "q1": 22.0,
+        "q3": 62.0
+      },
+      "density": {
+        "count": 1599.0,
+        "mean": 0.9967466791744841,
+        "median": 0.99675,
+        "var": 3.562029453326973e-06,
+        "min": 0.99007,
+        "max": 1.00369,
+        "q1": 0.9956,
+        "q3": 0.997835
+      },
+      "pH": {
+        "count": 1599.0,
+        "mean": 3.3111131957473416,
+        "median": 3.31,
+        "var": 0.023835180545412844,
+        "min": 2.74,
+        "max": 4.01,
+        "q1": 3.21,
+        "q3": 3.4
+      },
+      "sulphates": {
+        "count": 1599.0,
+        "mean": 0.6581488430268917,
+        "median": 0.62,
+        "var": 0.028732616129761954,
+        "min": 0.33,
+        "max": 2.0,
+        "q1": 0.55,
+        "q3": 0.73
+      },
+      "alcohol": {
+        "count": 1599.0,
+        "mean": 10.422983114446529,
+        "median": 10.2,
+        "var": 1.1356473950004737,
+        "min": 8.4,
+        "max": 14.9,
+        "q1": 9.5,
+        "q3": 11.1
+      },
+      "quality": {
+        "count": 1599.0,
+        "mean": 5.6360225140712945,
+        "median": 6.0,
+        "var": 0.6521683999934252,
+        "min": 3.0,
+        "max": 8.0,
+        "q1": 5.0,
+        "q3": 6.0
+      }
+    },
+    "skewness": {
+      "fixed acidity": 0.9827514413284587,
+      "volatile acidity": 0.6715925723840199,
+      "citric acid": 0.3183372952546368,
+      "residual sugar": 4.54065542590319,
+      "chlorides": 5.680346571971722,
+      "free sulfur dioxide": 1.250567293314441,
+      "total sulfur dioxide": 1.515531257594554,
+      "density": 0.07128766294927483,
+      "pH": 0.19368349811284427,
+      "sulphates": 2.4286723536602945,
+      "alcohol": 0.8608288068888538,
+      "quality": 0.21780157547366327
+    },
+    "quality_counts": {
+      "3": 10,
+      "4": 53,
+      "5": 681,
+      "6": 638,
+      "7": 199,
+      "8": 18
+    },
+    "class_counts": {
+      "low": 63,
+      "medium": 1319,
+      "high": 217
+    },
+    "class_feature_means": {
+      "high": {
+        "fixed acidity": 8.847004608294931,
+        "volatile acidity": 0.4055299539170507,
+        "citric acid": 0.37649769585253456,
+        "residual sugar": 2.708755760368663,
+        "chlorides": 0.07591244239631335,
+        "free sulfur dioxide": 13.981566820276498,
+        "total sulfur dioxide": 34.88940092165899,
+        "density": 0.9960302764976958,
+        "pH": 3.288801843317972,
+        "sulphates": 0.7434562211981567,
+        "alcohol": 11.51804915514593
+      },
+      "low": {
+        "fixed acidity": 7.871428571428571,
+        "volatile acidity": 0.7242063492063492,
+        "citric acid": 0.17365079365079364,
+        "residual sugar": 2.684920634920635,
+        "chlorides": 0.09573015873015872,
+        "free sulfur dioxide": 12.063492063492063,
+        "total sulfur dioxide": 34.44444444444444,
+        "density": 0.9966887301587302,
+        "pH": 3.384126984126984,
+        "sulphates": 0.5922222222222222,
+        "alcohol": 10.215873015873017
+      },
+      "medium": {
+        "fixed acidity": 8.254283548142531,
+        "volatile acidity": 0.5385595147839273,
+        "citric acid": 0.25826383623957544,
+        "residual sugar": 2.5038665655799845,
+        "chlorides": 0.08897270659590598,
+        "free sulfur dioxide": 16.368460955269143,
+        "total sulfur dioxide": 48.94692949203942,
+        "density": 0.9968673085670963,
+        "pH": 3.311296436694466,
+        "sulphates": 0.6472630780894617,
+        "alcohol": 10.252716704574173
+      }
+    },
+    "quality_correlations": {
+      "fixed acidity": 0.12405164911322257,
+      "volatile acidity": -0.390557780264006,
+      "citric acid": 0.22637251431804045,
+      "residual sugar": 0.013731637340065779,
+      "chlorides": -0.12890655993005296,
+      "free sulfur dioxide": -0.05065605724427594,
+      "total sulfur dioxide": -0.1851002889265377,
+      "density": -0.17491922778336458,
+      "pH": -0.05773139120538257,
+      "sulphates": 0.25139707906925995,
+      "alcohol": 0.47616632400113656,
+      "quality": 1.0
+    },
+    "selected_predictor_correlations": {
+      "free sulfur dioxide | total sulfur dioxide": 0.6676664504810215,
+      "fixed acidity | pH": -0.6829781945685311,
+      "fixed acidity | density": 0.6680472921189736,
+      "alcohol | density": -0.49617977024170185,
+      "alcohol | volatile acidity": -0.20228802715325617,
+      "alcohol | total sulfur dioxide": -0.20565394374367096,
+      "residual sugar | pH": -0.08565242221887162,
+      "alcohol | pH": 0.20563250850549813
+    },
+    "deduplicated_sensitivity": {
+      "rows": 1359,
+      "class_counts": {
+        "low": 63,
+        "medium": 1112,
+        "high": 184
+      },
+      "alcohol_quality_correlation": 0.48034289800199176,
+      "volatile_acidity_quality_correlation": -0.39521368900984083
+    }
+  }
+}
