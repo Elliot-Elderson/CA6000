@@ -158,11 +158,17 @@ Capability demonstration of the model: Its inherent class imbalance provides a r
 | low (0) | 3–4 | 63 | 3.94 |
 | medium (1) | 5–6 | 1319 | 82.49 |
 | high (2) | 7–8 | 217 | 13.57 |
+
 It can be observed that the sample dataset is highly imbalanced, especially with very few wine samples labelled as low quality.
 
 #### Train / Validation / Test Split (70 / 15 / 15, stratified)
 
 We use a 70 / 15 / 15 stratified split with **fixed seed 4**: the seed fixes the random data split, the decision-tree baseline and the MLP initialisation. The validation set is used for hyper-parameter selection and early stopping, the **test set is held out until the very end** and evaluated exactly once, and `stratify=` keeps the class proportions approximately similar across the splits, subject to integer rounding.
+
+```python
+X_tr, X_rest, y_tr, y_rest = train_test_split(X, y, test_size=0.30, stratify=y, random_state=SEED)
+X_val, X_te, y_val, y_te = train_test_split(X_rest, y_rest, test_size=0.50, stratify=y_rest, random_state=SEED)
+```
 
 **Resulting split sizes and class counts:**
 
@@ -196,6 +202,24 @@ The test-set confusion counts show the effect of the imbalance directly: the tre
 ### 5.4 MLP Design
 
 **Architecture:** `11 → 64 → 32 → 3`, with ReLU activations and Dropout (0.3) after each hidden layer. The hidden layers are deliberately small (~1,120 training samples — a larger network would memorise); dropout adds further regularisation. The output layer produces raw **logits** and `CrossEntropyLoss` applies the softmax internally.
+
+```python
+class WineQualityMLP(nn.Module):
+    def __init__(self, input_dim=11, hidden_dims=(64, 32), output_dim=3, dropout=0.3):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(input_dim, hidden_dims[0]),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(hidden_dims[0], hidden_dims[1]),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(hidden_dims[1], output_dim),
+        )
+
+    def forward(self, x):
+        return self.net(x)
+```
 
 ![Figure 8. MLP architecture: 11 → 64 → 32 → 3 with ReLU activations and Dropout (0.3).](CHEN%20BOWEN_PART/figs/mlp_architecture.png)
 
