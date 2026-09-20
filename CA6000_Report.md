@@ -103,11 +103,11 @@ Table 1 uses **all 1,599 original rows** and Pandas sample variance (`ddof=1`). 
 
 The observed score counts are **3: 10, 4: 53, 5: 681, 6: 638, 7: 199, 8: 18**. After the report's label mapping, low / medium / high contain **63 (3.94%) / 1,319 (82.49%) / 217 (13.57%)** rows. A classifier that always chooses medium would therefore achieve 82.49% accuracy on the full dataset, making rare-class metrics essential alongside overall accuracy.
 
-![Figure 1. Original quality-score frequencies, coloured by the three model classes.](LI XIAOTENG_PART/figs/eda_quality_counts.svg)
+![Figure 1. Original quality-score frequencies, coloured by the three model classes.](LI%20XIAOTENG_PART/figs/eda_quality_counts.svg)
 
 Figure 2 revisits the reference notebook's histograms with common binning and explicit axes. `residual sugar` and `chlorides` have pronounced right tails (sample skewness 4.54 and 5.68), while `density` and `pH` are much more symmetric (skewness 0.07 and 0.19). `fixed acidity` is **right**, rather than left, skewed in this file (skewness 0.98); thus the reference notebook's left-skew description is not repeated. These shapes help explain the IQR flag counts; they do not by themselves show bad measurements.
 
-![Figure 2. Histograms of four selected input variables from the unchanged CSV.](LI XIAOTENG_PART/figs/eda_feature_distributions.svg)
+![Figure 2. Histograms of four selected input variables from the unchanged CSV.](LI%20XIAOTENG_PART/figs/eda_feature_distributions.svg)
 
 ### 4.3 Relationships with sensory quality
 
@@ -121,17 +121,17 @@ Pearson correlations with the **original 3–8 quality score** are: `alcohol` **
 
 The high class has higher mean alcohol and sulphates and lower mean volatile acidity in this sample. The low class has only 63 rows, so its mean is less stable than the medium-class mean. The two-dimensional count map in Figure 3 replaces heavily overlapping quality-versus-alcohol scatter points; Figure 4 adapts the reference notebook's empirical cumulative distribution idea to the report's **three** classes. Neither plot alone implies a causal effect.
 
-![Figure 3. Counts by raw quality score and half-unit alcohol interval.](LI XIAOTENG_PART/figs/eda_alcohol_quality_heatmap.svg)
+![Figure 3. Counts by raw quality score and half-unit alcohol interval.](LI%20XIAOTENG_PART/figs/eda_alcohol_quality_heatmap.svg)
 
-![Figure 4. Alcohol empirical cumulative distributions for low, medium and high classes.](LI XIAOTENG_PART/figs/eda_alcohol_ecdf.svg)
+![Figure 4. Alcohol empirical cumulative distributions for low, medium and high classes.](LI%20XIAOTENG_PART/figs/eda_alcohol_ecdf.svg)
 
-![Figure 5. Mean alcohol, volatile acidity and sulphates by the three model classes.](LI XIAOTENG_PART/figs/eda_class_profiles.svg)
+![Figure 5. Mean alcohol, volatile acidity and sulphates by the three model classes.](LI%20XIAOTENG_PART/figs/eda_class_profiles.svg)
 
 ### 4.4 Relationships among inputs and implications
 
 Usually we use pairplots, scatter/regression plots, joint density plots, hexagonal bins, Plotly heatmaps and Pearson tests to investigate pairwise structure. We condense those checks into the annotated matrix in Figure 6 and the count map above, avoiding multiple nearly identical figures and density smoothing across a discrete `quality` axis. The strongest selected input relationships are `fixed acidity` with `pH` (**−0.683**), `fixed acidity` with `density` (**+0.668**), `free sulfur dioxide` with `total sulfur dioxide` (**+0.668**) and `alcohol` with `density` (**−0.496**). The reference's claimed `alcohol`–`pH` nonrelationship is too strong: the measured correlation is **+0.206**, a modest linear association. Correlated inputs are not automatically an error; the small MLP and the tree can use them, although redundancy can affect interpretation.
 
-![Figure 6. Pearson correlations across 11 inputs and the original quality score.](LI XIAOTENG_PART/figs/eda_correlation_heatmap.svg)
+![Figure 6. Pearson correlations across 11 inputs and the original quality score.](LI%20XIAOTENG_PART/figs/eda_correlation_heatmap.svg)
 
 As a sensitivity check on the duplicate finding, `drop_duplicates()` leaves **1,359** rows with class counts **63 / 1,112 / 184**. The `alcohol`–quality correlation moves only from **+0.476** to **+0.480**, and `volatile acidity`–quality from **−0.391** to **−0.395**. This suggests the two leading descriptive associations are stable to exact-row deduplication, while it does **not** validate the Section 5 accuracy under a new split. The reference notebook's 3D surface views use arbitrary row order as one axis and do not answer a meaningful scientific question here, so the report instead shows distributions, conditional counts and correlations. All these EDA calculations use the full labelled CSV for **description**; they are not fitted preprocessing steps or a basis for choosing hyperparameters on the held-out test set.
 
@@ -186,13 +186,13 @@ Before training a neural network we need a **reference point**. A decision tree 
 
 The test-set confusion counts show the effect of the imbalance directly: the tree **barely detects "low" at all** — it predicts exactly 1 of the 10 low wines correctly **(recall 0.1)**. For "high" wines, it correctly predicts 16 of 32 **(recall 0.5)**, misclassifying the other 16 as "medium".
 
-![Figure 7. Decision-tree test-set confusion matrix (3-class, argmax rule).](CHEN BOWEN_PART/figs/cm_dt_3class.png)
+![Figure 7. Decision-tree test-set confusion matrix (3-class, argmax rule).](CHEN%20BOWEN_PART/figs/cm_dt_3class.png)
 
 ### 5.4 MLP Design
 
 **Architecture:** `11 → 64 → 32 → 3`, with ReLU activations and Dropout (0.3) after each hidden layer. The hidden layers are deliberately small (~1,120 training samples — a larger network would memorise); dropout adds further regularisation. The output layer produces raw **logits** and `CrossEntropyLoss` applies the softmax internally.
 
-![Figure 8. MLP architecture: 11 → 64 → 32 → 3 with ReLU activations and Dropout (0.3).](CHEN BOWEN_PART/figs/mlp_architecture.png)
+![Figure 8. MLP architecture: 11 → 64 → 32 → 3 with ReLU activations and Dropout (0.3).](CHEN%20BOWEN_PART/figs/mlp_architecture.png)
 
 ### 5.5 Loss & Optimizer
 
@@ -207,12 +207,12 @@ optimizer=torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-4)
 
 Each epoch runs a training pass (mini-batches of 64: zero gradients → forward → loss → backward → update) and a validation pass (`model.eval()`), with early stopping on the validation loss (patience 40). Training stopped at epoch 95 (best validation loss 0.6638 at epoch 55).
 
-![Figure 9. Training and validation loss and accuracy curves; best validation loss 0.6638 at epoch 55.](CHEN BOWEN_PART/figs/training_curves.png)
+![Figure 9. Training and validation loss and accuracy curves; best validation loss 0.6638 at epoch 55.](CHEN%20BOWEN_PART/figs/training_curves.png)
 
 ### 5.7 Test Evaluation (argmax)
 The test set is used exactly once. Under the default `argmax` rule the MLP reaches **0.8333 test accuracy and 0.6347 macro-F1** (decision tree: 0.8333 / 0.5285) — equal accuracy to the tree and above the majority baseline (0.825), with a far better balance across classes. The MLP detects 4 of the 10 "low" wines (recall 0.4 vs the tree's 0.1) and 21 of the 32 "high" wines (recall 0.6562 vs 0.5); the full per-metric comparison follows in Section 5.8.
 
-![Figure 10. MLP test-set confusion matrix (3-class, argmax rule).](CHEN BOWEN_PART/figs/cm_3class.png)
+![Figure 10. MLP test-set confusion matrix (3-class, argmax rule).](CHEN%20BOWEN_PART/figs/cm_3class.png)
 ### 5.8 Operating-Point Tuning: Probability Multipliers
 
 `argmax` maximises accuracy, but under class imbalance the metric that matters is **macro-F1** — and the two are not maximised by the same operating point. We adjust the operating point with **probability multipliers**, i.e. by re-weighting the class probabilities before the argmax:
@@ -247,7 +247,7 @@ Hard predictions at a single operating point hide the full precision-recall trad
 
 The MLP ranks every class at least as well as the tree — most decisively on "high" (AP 0.5640 vs 0.4090). The operating points reported in Section 5.8 show the precision–recall trade-off at the selected probability multipliers.
 
-![Figure 11. Per-class precision-recall curves (one-vs-rest) with average precision; markers show the tuned operating points.](CHEN BOWEN_PART/figs/pr_curves_3class.png)
+![Figure 11. Per-class precision-recall curves (one-vs-rest) with average precision; markers show the tuned operating points.](CHEN%20BOWEN_PART/figs/pr_curves_3class.png)
 ## 6. Accuracy Summary
 
 At the default `argmax` rule, the MLP reaches **83.33% test accuracy and 0.6347 macro-F1**, versus 83.33% accuracy and 0.5285 macro-F1 for the decision tree — equal accuracy, far better balance. At the tuned operating points (Section 5.8) the MLP moves only slightly (0.6347 → 0.6310 with w = [1, 1, 1.5]), while the tree improves to 0.5422 (w = [3, 1, 3]) but still loses both rare classes. The decisive difference is the rare classes: the MLP detects 40% of "low" wines (F1 0.4211 vs the tree's 0.1818, or 0.2857 tuned) and 65.62% of "high" wines at argmax — 75% when tuned (F1 0.5833 / 0.5854 vs the tree's 0.5 / 0.4571). The per-class AP values confirm the same ranking, most decisively on "high": 0.5640 vs 0.4090.
