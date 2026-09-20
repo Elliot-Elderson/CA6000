@@ -1,5 +1,10 @@
 # CA6000 Assignment — Wine Quality Prediction
 
+## Division of Work
+
+- **CHEN BOWEN**: all model parts (model design, training, evaluation and analysis).
+- **LI XIAOTENG**: data preprocessing and visualization (data import, cleaning and EDA).
+
 ## 1. Introduction & Dataset Source
 
 This case study asks whether routine physicochemical measurements can help predict a sensory assessment of Portuguese red Vinho Verde wine. We use the locally downloaded [`winequality-red.csv`](archive/winequality-red.csv) from the [Kaggle Red Wine Quality page](https://www.kaggle.com/datasets/uciml/red-wine-quality-cortez-et-al-2009/data); its original source is the [UCI Wine Quality repository](https://archive.ics.uci.edu/dataset/186/wine+quality) and the study by [Cortez et al. (2009)](https://doi.org/10.1016/j.dss.2009.05.016). The UCI collection also contains white wine; **this assignment uses only the red-wine CSV**. The supplied file has **1,599 observations, 11 continuous input variables and one integer `quality` target**. The observed target scores are 3–8, although the source describes the scoring scale as 0–10. The source provides no grape, producer, price or consumer data, so the findings apply to these measurements and sensory labels only.
